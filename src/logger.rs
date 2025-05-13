@@ -1,6 +1,7 @@
 
 use slint::{SharedString, Weak};
 use std::sync::{Arc, Mutex};
+use chrono::Local;
 use crate::AppWindow;
 
 pub struct LoggerState {
@@ -48,7 +49,10 @@ pub fn init_logger(ui: Weak<AppWindow>) {
 
 // Public function to add messages to the log from anywhere in the code
 pub fn log(message: &str) {
+    
     if let Some(logger) = &*LOGGER.lock().unwrap() {
-        logger.log(message);
+        let now = Local::now().format("%H:%M:%S");
+        let text = format!("{} {}", now, message);
+        logger.log(&text);
     }
 }
