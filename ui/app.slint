@@ -1,0 +1,84 @@
+// ui/app.slint
+import { VerticalBox, LineEdit, Button, ScrollView, HorizontalBox, TextEdit } from "std-widgets.slint";
+
+export component AppWindow inherits Window {
+
+    width: 400px;
+    height: 400px;
+
+    icon: @image-url("assets/icon.png");
+
+    // Property to store the log content
+    in-out property <string> log-content: "";
+    
+    // Property for the input field
+    in-out property <string> input-text: "";
+    
+    // Callback to add a message to the log
+    callback add-log-message(string);
+
+    VerticalBox {
+        Text {
+            text: "Log Console";
+            font-size: 24px;
+            horizontal-alignment: center;
+        }
+
+        HorizontalBox {
+            rectangle := Rectangle {
+                background: #000000;
+                border-radius: 4px;
+                border-width: 1px;
+                drop-shadow-offset-x: 3px;
+                drop-shadow-offset-y: 3px;
+                border-color: #ff0000;
+                scrool := ScrollView {
+                    vertical-scrollbar-policy: always-on;
+                    HorizontalLayout {
+                        padding-left: 10px;
+                        padding-top: 5px;
+                        log := Text {
+                            horizontal-alignment: left;
+                            vertical-alignment: top;
+                            color: #dedede;
+                            width: 100%;
+                            text: root.log-content;
+                            font-family: "monospace";
+                            font-size: 14px;
+                        }
+                    }
+                }
+
+                Timer {
+                    interval: 500ms;
+                    running: true;
+                    // make last log line visible
+                    triggered() => {
+                        scrool.viewport-y = min(0px, - log.height + rectangle.height);
+                    }
+                }
+            }
+        }
+        
+        // Area for manual text input
+        HorizontalLayout {
+            spacing: 10px;
+            padding: 10px;
+            LineEdit {
+                horizontal-stretch: 1;
+                text <=> root.input-text;
+                placeholder-text: "Type a message for the log";
+                accepted => {
+                    root.add-log-message(root.input-text);
+                }
+            }
+
+            Button {
+                text: "Add";
+                clicked => {
+                    root.add-log-message(root.input-text);
+                }
+            }
+        }
+    }
+}

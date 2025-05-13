@@ -1,0 +1,16 @@
+[package]
+name = "slint_rust"
+version = "0.1.0"
+edition = "2024"
+authors = ["mario ANTUNES"]
+description = "Rust and Slint Proof of Concept"
+readme = "README.md"
+homepage = "https://marioantunes.pt"
+
+
+[dependencies]
+slint = "1.11.0"
+lazy_static = "1.5.0"
+
+[build-dependencies]
+slint-build = "1.11.0"
