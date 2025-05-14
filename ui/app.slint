@@ -24,7 +24,7 @@ export component AppWindow inherits Window {
             horizontal-alignment: center;
         }
 
-        HorizontalBox {
+        HorizontalLayout {
             rectangle := Rectangle {
                 background: #000000;
                 border-radius: 4px;
@@ -32,11 +32,10 @@ export component AppWindow inherits Window {
                 drop-shadow-offset-x: 3px;
                 drop-shadow-offset-y: 3px;
                 border-color: #ff0000;
-                scrool := ScrollView {
+                scroll := ScrollView {
                     vertical-scrollbar-policy: always-on;
                     HorizontalLayout {
                         padding-left: 10px;
-                        padding-top: 5px;
                         log := Text {
                             horizontal-alignment: left;
                             vertical-alignment: top;
@@ -54,7 +53,7 @@ export component AppWindow inherits Window {
                     running: true;
                     // make last log line visible
                     triggered() => {
-                        scrool.viewport-y = min(0px, - log.height + rectangle.height);
+                        scroll.viewport-y = min(0px, - log.height + rectangle.height);
                     }
                 }
             }
